@@ -1,10 +1,10 @@
 CommonBehavior.Endpoints=tcp -p 10201
 RGBD.Endpoints=tcp -p 10200
 
-GenericBaseProxy = genericbase:tcp -h localhost -p 0
+GenericBaseProxy = genericbase:tcp -h localhost -p 11000 
 TalkToBase=false
 
-JointMotorProxy = jointmotor:tcp -h localhost -p 0
+JointMotorProxy = jointmotor:tcp -h localhost -p 12000
 TalkToJoint=false
 
 

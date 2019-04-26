@@ -19,12 +19,11 @@
 
 import sys, os, traceback, time
 
-from PySide import QtGui, QtCore
+from PySide2.QtCore import Slot
 from genericworker import *
 import cv2
 import numpy as np
-from PyQt4.QtGui import QImage
-from PyQt4.QtCore import QSize
+
 
 # If RoboComp was compiled with Python bindings you can use InnerModel in Python
 # sys.path.append('/opt/robocomp/lib')
@@ -33,43 +32,43 @@ from PyQt4.QtCore import QSize
 # import librobocomp_innermodel
 
 class SpecificWorker(GenericWorker):
-	def __init__(self, proxy_map):
-		super(SpecificWorker, self).__init__(proxy_map)
-		self.timer.timeout.connect(self.compute)
-		self.Period = 5
-		self.timer.start(self.Period)
+    def __init__(self, proxy_map):
+        super(SpecificWorker, self).__init__(proxy_map)
+        self.timer.timeout.connect(self.compute)
+        self.Period = 5
+        self.timer.start(self.Period)
 
-	def setParams(self, params):
-		#try:
-		#	self.innermodel = InnerModel(params["InnerModelPath"])
-		#except:
-		#	traceback.print_exc()
-		#	print "Error reading config params"
-		return True
+    def setParams(self, params):
+        # try:
+        #	self.innermodel = InnerModel(params["InnerModelPath"])
+        # except:
+        #	traceback.print_exc()
+        #	print "Error reading config params"
+        return True
 
-	@QtCore.Slot()
-	def compute(self):
-		print 'SpecificWorker.compute...'
-		#computeCODE
-		try:
-			color, depth, _, _= self.rgbd_proxy.getData()
-			# print depth
-			image = np.frombuffer(color, dtype=np.uint8)
-			print image.size
-			image =np.reshape(image, (480,640,3))
-			image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-			cv2.imshow("color", image)
-			print (min(depth), max(depth))
-			depth = np.interp(depth, [min(depth), max(depth)], [0, 255])
-			print(min(depth), max(depth))
-			depth = np.reshape(depth, (480,640,1))
-			cv2.imshow("depth", depth.astype(np.uint8))
-			k = cv2.waitKey(5)
-			#print len(color)
-		except Ice.Exception, e:
-			traceback.print_exc()
-			print e
+    @Slot()
+    def compute(self):
+        print 'SpecificWorker.compute...'
+        # computeCODE
+        try:
+            color, depth, _, _ = self.rgbd_proxy.getData()
+            #print depth
+            print len(color)
 
+            image = np.frombuffer(color, dtype=np.uint8)
+            print image.size
+            image = np.reshape(image, (480, 640, 3))
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            cv2.imshow("color", image)
+            #print (min(depth), max(depth))
+            #depth = np.interp(depth, [min(depth), max(depth)], [0, 255])
+            #print(min(depth), max(depth))
+            #depth = np.reshape(depth, (480, 640, 1))
+            #cv2.imshow("depth", depth.astype(np.uint8))
+            cv2.waitKey(5)
+        # print len(color)
+        except Ice.Exception, e:
+            traceback.print_exc()
+            print e
 
-		return True
-
+        return True

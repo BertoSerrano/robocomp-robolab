@@ -38,12 +38,8 @@
 #include <pcl/console/print.h>
 #include <pcl/console/parse.h>
 #include <pcl/console/time.h>
-
 #include <boost/chrono.hpp>
-
 #include <pcl/io/openni2/openni.h>
-
-
 
 template <typename PointType> class OpenNI2Viewer
 {
@@ -148,7 +144,7 @@ public:
 // 		printf("%p %dx%d\n", image_->getData(), image->getWidth(), image->getHeight());
 // 		memcpy(rgb_xxx, (const unsigned char*)image_->getData(), image->getWidth()*image->getHeight());
 
-		printf("%p %dx%d\n", image_->getData(), image->getWidth(), image->getHeight());
+		//printf("%p %dx%d\n", image_->getData(), image->getWidth(), image->getHeight());
 		memcpy(&writeIM->operator[](0), (const unsigned char*)image_->getData(), image->getWidth()*image->getHeight()*3);
 
 		if (first)
@@ -227,18 +223,31 @@ public:
 	~SpecificWorker();
 	bool setParams(RoboCompCommonBehavior::ParameterList params);
 
-	Registration getRegistration();
-	void getData(imgType &rgbMatrix, depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
-	void getXYZ(PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
-	void getRGB(ColorSeq &color, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
-	TRGBDParams getRGBDParams();
-	void getDepth(DepthSeq &depth, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
-	void setRegistration(const Registration &value);
-	void getImage(ColorSeq &color, DepthSeq &depth, PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
-	void getDepthInIR(depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// Registration getRegistration();
+	// void getData(imgType &rgbMatrix, depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// void getXYZ(PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// void getRGB(ColorSeq &color, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// TRGBDParams getRGBDParams();
+	// void getDepth(DepthSeq &depth, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// void setRegistration(const Registration &value);
+	// void getImage(ColorSeq &color, DepthSeq &depth, PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	// void getDepthInIR(depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+
+	Registration RGBD_getRegistration();
+	void RGBD_getData(imgType &rgbMatrix, depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	void RGBD_getXYZ(PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	void RGBD_getRGB(ColorSeq &color, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	TRGBDParams RGBD_getRGBDParams();
+	void RGBD_getDepth(DepthSeq &depth, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	void RGBD_setRegistration(const Registration &value);
+	void RGBD_getXYZByteStream(imgType &pointStream, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState){};
+	void RGBD_getImage(ColorSeq &color, DepthSeq &depth, PointSeq &points, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+	void RGBD_getDepthInIR(depthType &distanceMatrix, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState);
+
 
 public slots:
-	void compute();
+	void compute() override;
+	void initialize(int period) override;
 
 private:
 	InnerModel *innerModel;

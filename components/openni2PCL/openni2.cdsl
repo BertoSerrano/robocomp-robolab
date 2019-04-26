@@ -1,6 +1,6 @@
-import "/robocomp/interfaces/IDSLs/RGBD.idsl";
-import "/robocomp/interfaces/IDSLs/JointMotor.idsl";
-import "/robocomp/interfaces/IDSLs/GenericBase.idsl";
+import "RGBD.idsl";
+import "JointMotor.idsl";
+import "GenericBase.idsl";
 
 Component openNI2pcl
 {
