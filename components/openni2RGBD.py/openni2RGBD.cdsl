@@ -1,0 +1,12 @@
+import "RGBD.idsl";
+
+Component openni2RGBD
+{
+    Communications
+    {
+        implements RGBD;
+    };
+	language python;
+	// gui Qt(QWidget//QDialog//QMainWindow);
+};
+
