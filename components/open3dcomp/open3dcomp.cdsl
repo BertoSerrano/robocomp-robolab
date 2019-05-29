@@ -1,0 +1,14 @@
+import "RGBD.idsl";
+
+Component open3dcomp
+{
+    Communications
+    {
+        requires RGBD;
+    };
+	language python;
+	//gui Qt(QWidget//QDialog//QMainWindow);
+	//options agmagent;
+	//options InnerModelViewer;
+};
+
