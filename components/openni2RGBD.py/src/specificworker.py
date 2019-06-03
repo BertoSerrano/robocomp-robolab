@@ -24,7 +24,6 @@ from primesense import openni2
 from primesense import _openni2 as c_api
 
 
-
 # If RoboComp was compiled with Python bindings you can use InnerModel in Python
 # sys.path.append('/opt/robocomp/lib')
 # import librobocomp_qmat
@@ -163,22 +162,44 @@ class SpecificWorker(GenericWorker):
         # implementCODE
         #
         bgr = np.fromstring(self.rgb_stream.read_frame().get_buffer_as_uint8(), dtype=np.uint8).reshape(240 * 320, 3)
-        rgb = np.interp(bgr, [0, 255], [0.0, 1.0])
+        # import ctypes
+        # bgr = np.fromstring(self.rgb_stream.read_frame().get_buffer_as(ctypes.c_byte), dtype=np.byte).reshape(240 * 320, 3)
+        # bgr = self.rgb_stream.read_frame().get_buffer_as(ctypes.c_byte).reshape(240 * 320, 3)
+        # bgr = np.fromstring(self.rgb_stream.read_frame().get_buffer_as_uint8(), dtype=np.uint8).reshape(240 * 320, 3)
+        # rgb = np.interp(bgr, [0, 255], [0.0, 1.0])
 
-        color = ColorSeq()
-        for pixel in rgb:
+        color = []
 
-            c = ColorRGB()
-            c.red = bytes(pixel[0])
-            c.green = bytes(pixel[1])
-            c.blue = bytes(pixel[2])
+        print(" BGR type:  ", type(bgr), " BGR LEN", len(bgr))
 
-        color.append(c)
+        pix = bgr[1200]
+        print("TYPE PIX ((pix = bgr[3])) : ", type(pix))
+        print("TYPE LEN ((pix = bgr[3])) : ", len(pix))
+        print (" TYPE PIX[0] : ", type(pix[0]))
 
+        othertry = ColorRGB()
+        print othertry
+        othertry.red = chr(pix[2])
+        othertry.green = chr(pix[1])
+        othertry.blue = chr(pix[0])
+        print(" show an example of Color RGB : ", othertry, "\n and its type: ", type(othertry))
 
+        othertry = ColorRGB(red=pix[2], green=pix[1], blue=pix[0])
+        print "NOW AFTER USING CHR"
+        print(" show an example of Color RGB : ", othertry, "\n and its type: ", type(othertry))
 
-        hState = RoboCompJointMotor.MotorStateMap()
-        bState = RoboCompGenericBase.TBaseState()
+        othertry = ColorRGB(red=int(pix[2]), green=int(pix[1]), blue=int(pix[0]))
+        print "JUST INTEGERS"
+        print(" show an example of Color RGB : ", othertry, "\n and its type: ", type(othertry))
+
+        for pixel in bgr:
+            c = ColorRGB(red=chr(pixel[2]), green=chr(pixel[1]), blue=chr(pixel[0]))
+            color.append(c)
+
+        # color = [ColorRGB(bytes(r), bytes(g), bytes(b)) for b, g, r in bgr]
+
+        hState = 0
+        bState = 0
         return [color, hState, bState]
 
     #
