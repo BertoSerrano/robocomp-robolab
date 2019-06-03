@@ -20,8 +20,10 @@
 #define SPECIFICWORKER_H
 
 #include <genericworker.h>
-#include <OpenNI.h>
-#include <PS1080.h>
+//#include <OpenNI.h> //  /usr/include/openni2/OpenNI.h
+#include "/usr/include/openni2/OpenNI.h"
+#include "/usr/include/openni2/PS1080.h"
+//#include <PS1080.h>
 #include <map>
 #include <vector>
 #include <time.h>
