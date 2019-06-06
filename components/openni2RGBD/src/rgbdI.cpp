@@ -73,3 +73,7 @@ void RGBDI::getDepthInIR( depthType  &distanceMatrix,  RoboCompJointMotor::Motor
 	worker->getDepthInIR(distanceMatrix, hState, bState);
 }
 
+void RGBDI::getXYZByteStream (imgType &pointStream, RoboCompJointMotor::MotorStateMap &hState, RoboCompGenericBase::TBaseState &bState, const Ice::Current&)
+{
+    worker->getXYZByteStream(pointStream, hState, bState);
+}
