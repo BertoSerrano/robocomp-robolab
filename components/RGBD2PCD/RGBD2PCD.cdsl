@@ -1,0 +1,12 @@
+import "RGBD.idsl";
+
+Component RGBD2PCD
+{
+    Communications
+    {
+        requires RGBD;
+    };
+	language Cpp;
+	gui Qt(QMainWindow);
+};
+
